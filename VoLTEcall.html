@@ -27,7 +27,8 @@
     </style>
 </head>
 <body>
-        <!-- Call Type Selection -->
+
+    <!-- Call Type Selection -->
     <div class="network">
         <h2>Call Type</h2>
         <form>
@@ -41,99 +42,116 @@
             </select>
         </form>
     </div>
-        <!-- Call Status -->
+
+    <!-- Call Status -->
     <div class="status" id="callStatus">Call Flow not started</div>
 
     <!-- Start Call Button -->
     <button onclick="startCall()">Start Call Flow</button>
+
     <!-- Container for MSC Diagram -->
     <div id="callFlowDiagram">
         <!-- The diagram will be displayed here -->
     </div>
-        <script>
-            function startCall(){
-    if (selectedCallType === 'Registration'){
-    <div class="msc-container">
-        <svg width="400" height="200">
-            <!-- Define arrowhead marker -->
-            <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" />
-                </marker>
-            </defs>
 
-            <!-- Vertical lines for entities -->
-            <line x1="50" y1="20" x2="50" y2="180" class="msc-line" />
-            <line x1="200" y1="20" x2="200" y2="180" class="msc-line" />
-            <line x1="350" y1="20" x2="350" y2="180" class="msc-line" />
-            <line x1="500" y1="20" x2="500" y2="180" class="msc-line" />
-            <line x1="650" y1="20" x2="650" y2="180" class="msc-line" />
-            
-            <!-- Entity labels -->
-            <text x="40" y="15" class="msc-label">UE</text>
-            <text x="190" y="15" class="msc-label">PCSCF</text>
-            <text x="340" y="15" class="msc-label">ICSCF</text>
-            <text x="490" y="15" class="msc-label">SCSCF</text>
-            <text x="640" y="15" class="msc-label">HSS</text>
-        
-            <!-- Messages between entities -->
-            <line x1="50" y1="50" x2="200" y2="50" class="msc-arrow" />
-            <text x="120" y="45" class="msc-label">Register</text>
+    <script>
+        function startCall() {
+            const selectedCallType = document.getElementById('network').value;
+            let mscContainer = document.getElementById('callFlowDiagram');
+            mscContainer.innerHTML = ''; // Clear previous diagram
 
-            <line x1="200" y1="80" x2="350" y2="80" class="msc-arrow" />
-            <text x="270" y="75" class="msc-label">Register</text>
+            // Create the SVG container for the diagram
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "800");
+            svg.setAttribute("height", "200");
 
-            <line x1="350" y1="110" x2="500" y2="110" class="msc-arrow" />
-            <text x="420" y="105" class="msc-label">UAR</text>
+            // Define arrowhead marker
+            let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            let marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+            marker.setAttribute("id", "arrowhead");
+            marker.setAttribute("markerWidth", "10");
+            marker.setAttribute("markerHeight", "7");
+            marker.setAttribute("refX", "9");
+            marker.setAttribute("refY", "3.5");
+            marker.setAttribute("orient", "auto");
+            let polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
+            marker.appendChild(polygon);
+            defs.appendChild(marker);
+            svg.appendChild(defs);
 
-            <line x1="500" y1="140" x2="650" y2="140" class="msc-arrow" />
-            <text x="570" y="140" class="msc-label">UAA</text>
+            // Function to add vertical lines for entities
+            function addLine(x, y1, y2) {
+                let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x);
+                line.setAttribute("y1", y1);
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", y2);
+                line.setAttribute("class", "msc-line");
+                svg.appendChild(line);
+            }
 
-            <line x1="650" y1="170" x2="800" y2="170" class="msc-arrow" />
-            <text x="200" y="105" class="msc-label">UAA</text>
-                    }
-        else if (selectedCallType === 'Third-party Registration') {
-                <div class="msc-container">
-        <svg width="400" height="200">
-            <!-- Define arrowhead marker -->
-            <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" />
-                </marker>
-            </defs>
+            // Function to add text labels for entities
+            function addText(x, y, textContent) {
+                let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", x);
+                text.setAttribute("y", y);
+                text.setAttribute("class", "msc-label");
+                text.textContent = textContent;
+                svg.appendChild(text);
+            }
 
-            <!-- Vertical lines for entities -->
-            <line x1="50" y1="20" x2="50" y2="180" class="msc-line" />
-            <line x1="200" y1="20" x2="200" y2="180" class="msc-line" />
-            <line x1="350" y1="20" x2="350" y2="180" class="msc-line" />
-            <line x1="500" y1="20" x2="500" y2="180" class="msc-line" />
-            <line x1="650" y1="20" x2="650" y2="180" class="msc-line" />
-            
-            <!-- Entity labels -->
-            <text x="40" y="15" class="msc-label">UE</text>
-            <text x="190" y="15" class="msc-label">PCSCF</text>
-            <text x="340" y="15" class="msc-label">ICSCF</text>
-            <text x="490" y="15" class="msc-label">SCSCF</text>
-            <text x="640" y="15" class="msc-label">HSS</text>
-        
-            <!-- Messages between entities -->
-            <line x1="50" y1="50" x2="200" y2="50" class="msc-arrow" />
-            <text x="120" y="45" class="msc-label">Register</text>
+            // Function to add messages (arrows between entities)
+            function addMessage(x1, y1, x2, y2, label) {
+                let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x1);
+                line.setAttribute("y1", y1);
+                line.setAttribute("x2", x2);
+                line.setAttribute("y2", y2);
+                line.setAttribute("class", "msc-arrow");
+                svg.appendChild(line);
 
-            <line x1="200" y1="80" x2="350" y2="80" class="msc-arrow" />
-            <text x="270" y="75" class="msc-label">Register</text>
+                let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", (x1 + x2) / 2);
+                text.setAttribute("y", (y1 + y2) / 2 - 5);
+                text.setAttribute("class", "msc-label");
+                text.textContent = label;
+                svg.appendChild(text);
+            }
 
-            <line x1="350" y1="110" x2="500" y2="110" class="msc-arrow" />
-            <text x="420" y="105" class="msc-label">UAR</text>
+            // Define entities and their labels
+            addLine(50, 20, 180);
+            addLine(200, 20, 180);
+            addLine(350, 20, 180);
+            addLine(500, 20, 180);
+            addLine(650, 20, 180);
 
-            <line x1="500" y1="140" x2="650" y2="140" class="msc-arrow" />
-            <text x="570" y="140" class="msc-label">UAA</text>
+            addText(40, 15, 'UE');
+            addText(190, 15, 'PCSCF');
+            addText(340, 15, 'ICSCF');
+            addText(490, 15, 'SCSCF');
+            addText(640, 15, 'HSS');
 
-            <line x1="650" y1="170" x2="800" y2="170" class="msc-arrow" />
-            <text x="200" y="105" class="msc-label">UAA</text>
-                    }
-        </svg>
-    </div>
-        </script>
+            // Add messages based on selected call type
+            if (selectedCallType === 'Registration') {
+                addMessage(50, 50, 200, 50, 'Register');
+                addMessage(200, 80, 350, 80, 'Register');
+                addMessage(350, 110, 500, 110, 'UAR');
+                addMessage(500, 140, 650, 140, 'UAA');
+                addMessage(650, 170, 800, 170, 'UAA');
+            } else if (selectedCallType === 'Third-party Registration') {
+                addMessage(50, 50, 200, 50, 'Register');
+                addMessage(200, 80, 350, 80, 'Register');
+                addMessage(350, 110, 500, 110, 'UAR');
+                addMessage(500, 140, 650, 140, 'UAA');
+                addMessage(650, 170, 800, 170, 'UAA');
+            }
+
+            // Append the diagram to the container
+            mscContainer.appendChild(svg);
+            document.getElementById('callStatus').textContent = `${selectedCallType} Call Flow Started`;
+        }
+    </script>
+
 </body>
 </html>
