@@ -98,25 +98,25 @@
                 case "Registration":
                     mscScript = `
                         msc {
-                            UE, PCSCF, ICSCF, SCSCF, HSS;
+                            UE,PCSCF,ICSCF,SCSCF,HSS;
 
-                            UE->PCSCF: [label="Register"];
-			    PCSCF->ICSCF:  [label="Register"];
-			    ICSCF->HSS: [label="UAR"];
-			    HSS->ICSCF: [label="UAA"];
-			    ICSCF->HSS: [label="MAR"];
-			    HSS->ICSCF: [label="MAA"];
-			    ICSCF->PCSCF->UE:[label="401 Un-Authorized"];
-			    UE->PCSCF: [label="Register"];
-			    PCSCF->ICSCF:  [label="Register"];
-			    ICSCF->HSS: [label="UAR"];
-			    HSS->ICSCF: [label="UAA"];
-			    ICSCF->SCSCF: [label="Register"];
-			    SCSCF->HSS: [label="SAR"];
-			    HSS->SCSCF: [label="SAA"];
-			    SCSCF->PCSCF->UE: [label="200OK"];
-                        }
-                    `;
+                               UE -> PCSCF [label="Register"];
+                               PCSCF -> ICSCF  [label="Register"];
+                               ICSCF -> HSS [label="UAR"];
+                               HSS->ICSCF [label="UAA"];
+                               ICSCF->HSS [label="MAR"];
+                               HSS->ICSCF [label="MAA"];
+                               ICSCF->PCSCF,"*"->UE [label="401 Un Authorized"];
+                               UE->PCSCF [label="Register"];
+                               PCSCF->ICSCF [label="Register"];
+                               ICSCF->HSS [label="UAR"]; 
+                               HSS->ICSCF [label="UAA"];
+                               ICSCF->SCSCF [label="Register"];
+                               SCSCF->HSS [label="SAR"];
+                               HSS->SCSCF [label="SAA"];
+                               SCSCF->PCSCF,"*"->UE [label="200OK"];
+ }
+  `;
                     break;
 
                 case "Third-party Registration":
