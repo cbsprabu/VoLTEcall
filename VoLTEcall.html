@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoLTE Call Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .caller, .receiver {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            background-color: #fff;
+            width: 45%;
+        }
+        .caller h2, .receiver h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .network {
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            background-color: #e9f5ff;
+            max-width: 600px;
+        }
+        .network h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .arrow {
+            font-size: 24px;
+            color: #007bff;
+            margin: 0 10px;
+        }
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #28a745;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>VoLTE Call Design</h1>
+
+    <!-- Caller Section -->
+    <div class="container">
+        <div class="caller">
+            <h2>Caller</h2>
+            <p>User A</p>
+            <p>Phone: +1234567890</p>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow">→</div>
+
+        <!-- Receiver Section -->
+        <div class="receiver">
+            <h2>Receiver</h2>
+            <p>User B</p>
+            <p>Phone: +0987654321</p>
+        </div>
+    </div>
+
+    <!-- Network Section -->
+    <div class="network">
+        <h2>VoLTE Network</h2>
+        <p>IP Multimedia Subsystem (IMS)</p>
+        <p>LTE Network</p>
+    </div>
+
+    <!-- Call Status -->
+    <div class="status" id="callStatus">Call not started</div>
+
+    <!-- Start Call Button -->
+    <button onclick="startCall()">Start VoLTE Call</button>
+
+    <script>
+        function startCall() {
+            const callStatus = document.getElementById('callStatus');
+            callStatus.textContent = "Call in progress...";
+            callStatus.style.color = "#007bff";
+
+            // Simulate call completion after 5 seconds
+            setTimeout(() => {
+                callStatus.textContent = "Call completed successfully!";
+                callStatus.style.color = "#28a745";
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
