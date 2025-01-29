@@ -116,12 +116,12 @@
     <div class="status" id="callStatus">Call not started</div>
 
     <!-- Start Call Button -->
-    <button onclick="startCall()">Start VoLTE Call</button>
+    <button onclick="startCall()">Start Call Flow</button>
 
     <script>
         function startCall() {
             const callStatus = document.getElementById('callStatus');
-            callStatus.textContent = "Call in progress...";
+            callStatus.textContent = "Call Flow in progress...";
             callStatus.style.color = "#007bff";
 
             // Simulate call completion after 5 seconds
