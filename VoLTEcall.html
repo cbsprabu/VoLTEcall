@@ -149,25 +149,25 @@
                         hscale=auto;
                         U:UE;
                         P:P_CSCF/SBC;
-						I:I_CSCF;
-						S:S_CSCF;
-						H:HSS;
+			I:I_CSCF;
+			S:S_CSCF;
+			H:HSS;
 						
                         U->P: Register;
                         P->I: Register;
                         I->H: UAR;
-						H->I: UAA;
-						I->H: MAR;
-						H->I: MAA;
-						I->P->U:401 Un-Authorized
-						U->P: Register;
+			H->I: UAA;
+			I->H: MAR;
+			H->I: MAA;
+			I->P->U:401 Un-Authorized
+			U->P: Register;
                         P->I: Register;
                         I->H: UAR;
-						H->I: UAA;
-						I->S: Register;
-						S->H: SAR;
-						H->S: SAA;
-						S->P->U: 200OK
+			H->I: UAA;
+			I->S: Register;
+			S->H: SAR;
+			H->S: SAA;
+			S->P->U: 200OK
                 `;
             }
             else if (selectedCallType === 'Third-party Registration') {
