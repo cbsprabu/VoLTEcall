@@ -41,6 +41,16 @@
             </select>
         </form>
     </div>
+        <!-- Call Status -->
+    <div class="status" id="callStatus">Call Flow not started</div>
+
+    <!-- Start Call Button -->
+    <button onclick="startCall()">Start Call Flow</button>
+
+    <!-- Container for MSC Diagram -->
+    <div id="callFlowDiagram">
+        <!-- The diagram will be displayed here -->
+    </div>
         <script>
     if (selectedCallType === 'Registration'){
     <div class="msc-container">
@@ -77,6 +87,6 @@
             }
         </svg>
     </div>
-</script>
+        </script>
 </body>
 </html>
