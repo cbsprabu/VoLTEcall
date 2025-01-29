@@ -53,23 +53,23 @@
             // Set MSC text based on selected call type
             if (selectedCallType === 'Registration') {
                 mscText = `
-                    sequenceDiagram
-                        participant UE as User Equipment
-                        participant IMS as IMS Core
-                        participant HSS as Home Subscriber Server
-                        participant MME as Mobility Management Entity
-                        participant PCRF as Policy Control Function
+                            UE, PCSCF, ICSCF, SCSCF, HSS;
 
-                        UE->>IMS: Attach to IMS Network
-                        IMS->>HSS: Request Authentication
-                        HSS->>IMS: Send Authentication Info
-                        IMS->>UE: Send Registration Response
-                        UE->>IMS: Confirm Registration
-                        IMS->>MME: Attach Request
-                        MME->>IMS: Attach Acknowledgment
-                        IMS->>PCRF: Request Service Profile
-                        PCRF->>IMS: Send Service Profile
-                        IMS->>UE: Confirm Registration
+                            UE->PCSCF: [label="Register"];
+							PCSCF->ICSCF:  [label="Register"];
+							ICSCF->HSS: [label="UAR"];
+							HSS->ICSCF: [label="UAA"];
+							ICSCF->HSS: [label="MAR"];
+							HSS->ICSCF: [label="MAA"];
+							ICSCF->PCSCF->UE:[label="401 Un-Authorized"];
+							UE->PCSCF: [label="Register"];
+							PCSCF->ICSCF:  [label="Register"];
+							ICSCF->HSS: [label="UAR"];
+							HSS->ICSCF: [label="UAA"];
+							ICSCF->SCSCF: [label="Register"];
+							SCSCF->HSS: [label="SAR"];
+							HSS->SCSCF: [label="SAA"];
+							SCSCF->PCSCF->UE: [label="200OK"];
                 `;
             }
             else if (selectedCallType === 'Third-party Registration') {
