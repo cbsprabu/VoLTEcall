@@ -100,11 +100,17 @@
     </div>
 
     <!-- Network Section -->
-    <div class="network">
-        <h2>VoLTE Network</h2>
-        <p>IP Multimedia Subsystem (IMS)</p>
-        <p>LTE Network</p>
-    </div>
+<div class="network">
+    <h2>Select Network</h2>
+    <form>
+        <label for="network">Choose a network:</label>
+        <select id="network" name="network">
+            <option value="VoLTE Network">VoLTE Network</option>
+            <option value="IP Multimedia Subsystem (IMS)">IP Multimedia Subsystem (IMS)</option>
+            <option value="LTE Network">LTE Network</option>
+        </select>
+    </form>
+</div>
 
     <!-- Call Status -->
     <div class="status" id="callStatus">Call not started</div>
