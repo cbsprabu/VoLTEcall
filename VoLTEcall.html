@@ -3,52 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call Flow Diagram Generator</title>
+    <title>Call Flow MSC Generator</title>
     <style>
-        .network, .status {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
+        #callFlowDiagram {
+            margin-top: 20px;
             border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        select {
+            padding: 20px;
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+            height: 400px;
         }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #mscDiagram {
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+        .status {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+
+    <!-- Call Type Selection -->
     <div class="network">
         <h2>Call Type</h2>
         <form>
@@ -69,112 +40,128 @@
     <!-- Start Call Button -->
     <button onclick="startCall()">Start Call Flow</button>
 
-    <!-- Placeholder for MSC Diagram -->
-    <div id="mscDiagram"></div>
-
-    <!-- Include mscgen.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
-    <script src="https://unpkg.com/mscgenjs@6.0.1/dist/mscgen-inpage.min.js"></script>
+    <!-- Container for MSC Diagram -->
+    <div id="callFlowDiagram">
+        <!-- The diagram will be displayed here -->
+    </div>
 
     <script>
         function startCall() {
-            // Get the selected call type
-            const callType = document.getElementById("network").value;
+            const selectedCallType = document.getElementById('network').value;
+            let mscText = '';
+            
+            // Set MSC text based on selected call type
+            if (selectedCallType === 'Registration') {
+                mscText = `
+                    sequenceDiagram
+                        participant UE as User Equipment
+                        participant IMS as IMS Core
+                        participant HSS as Home Subscriber Server
+                        participant MME as Mobility Management Entity
+                        participant PCRF as Policy Control Function
 
-            // Update call status
-            document.getElementById("callStatus").textContent = `Call Flow Started: ${callType}`;
+                        UE->>IMS: Attach to IMS Network
+                        IMS->>HSS: Request Authentication
+                        HSS->>IMS: Send Authentication Info
+                        IMS->>UE: Send Registration Response
+                        UE->>IMS: Confirm Registration
+                        IMS->>MME: Attach Request
+                        MME->>IMS: Attach Acknowledgment
+                        IMS->>PCRF: Request Service Profile
+                        PCRF->>IMS: Send Service Profile
+                        IMS->>UE: Confirm Registration
+                `;
+            }
+            else if (selectedCallType === 'Third-party Registration') {
+                mscText = `
+                    sequenceDiagram
+                        participant UE1 as User Equipment 1
+                        participant IMS as IMS Core
+                        participant HSS as Home Subscriber Server
+                        participant UE2 as User Equipment 2
+                        participant MME as Mobility Management Entity
 
-            // Generate the MSC script based on the selected call type
-            const mscScript = generateMscScript(callType);
+                        UE1->>IMS: Attach to IMS Network
+                        IMS->>HSS: Request Authentication
+                        HSS->>IMS: Send Authentication Info
+                        IMS->>UE1: Send Registration Response
+                        UE1->>IMS: Confirm Registration
+                        IMS->>MME: Attach Request
+                        MME->>IMS: Attach Acknowledgment
+                        IMS->>UE2: Third-party Registration
+                        UE2->>IMS: Confirm Registration
+                        IMS->>HSS: Send Third-party Profile
+                `;
+            }
+            else if (selectedCallType === 'VoLTE to VoLTE call') {
+                mscText = `
+                    sequenceDiagram
+                        participant UE1 as User Equipment 1
+                        participant IMS as IMS Core
+                        participant UE2 as User Equipment 2
+                        participant PCRF as Policy Control Function
 
-            // Render the MSC diagram
-            renderMscDiagram(mscScript);
-        }
+                        UE1->>IMS: Initiate VoLTE Call
+                        IMS->>PCRF: Request QoS Profile
+                        PCRF->>IMS: Send QoS Profile
+                        IMS->>UE2: Call Setup Request
+                        UE2->>IMS: Call Setup Response
+                        IMS->>UE1: Call Setup Confirmation
+                        UE1->>UE2: VoLTE Media Exchange
+                        UE2->>UE1: VoLTE Media Exchange
+                `;
+            }
+            else if (selectedCallType === 'VoLTE to CS(Pure) call') {
+                mscText = `
+                    sequenceDiagram
+                        participant UE1 as User Equipment 1
+                        participant IMS as IMS Core
+                        participant CS as CS Core
+                        participant UE2 as User Equipment 2
 
-        function generateMscScript(callType) {
-            let mscScript = "";
+                        UE1->>IMS: Initiate VoLTE Call
+                        IMS->>CS: Route Call to CS Core
+                        CS->>UE2: Call Setup Request
+                        UE2->>CS: Call Setup Response
+                        CS->>IMS: Call Setup Confirmation
+                        IMS->>UE1: VoLTE Call Routed to CS
+                        UE1->>UE2: CS Call Media Exchange
+                        UE2->>UE1: CS Call Media Exchange
+                `;
+            }
+            else if (selectedCallType === 'CS to VoLTE call') {
+                mscText = `
+                    sequenceDiagram
+                        participant UE1 as User Equipment 1
+                        participant CS as CS Core
+                        participant IMS as IMS Core
+                        participant UE2 as User Equipment 2
 
-            // Define MSC script for each call type
-            switch (callType) {
-                case "Registration":
-                    mscScript = `
-                        msc {
-                            UE,PCSCF,ICSCF,SCSCF,HSS;
-
-                               UE -> PCSCF [label="Register"];
-                               PCSCF -> ICSCF  [label="Register"];
-                               ICSCF -> HSS [label="UAR"];
-                               HSS->ICSCF [label="UAA"];
-                               ICSCF->HSS [label="MAR"];
-                               HSS->ICSCF [label="MAA"];
-                               ICSCF->PCSCF,"*"->UE [label="401 Un Authorized"];
-                               UE->PCSCF [label="Register"];
-                               PCSCF->ICSCF [label="Register"];
-                               ICSCF->HSS [label="UAR"]; 
-                               HSS->ICSCF [label="UAA"];
-                               ICSCF->SCSCF [label="Register"];
-                               SCSCF->HSS [label="SAR"];
-                               HSS->SCSCF [label="SAA"];
-                               SCSCF->PCSCF,"*"->UE [label="200OK"];
- }
-  `;
-                    break;
-
-                case "Third-party Registration":
-                    mscScript = `
-                        msc {
-                            UE, AS, HSS;
-
-                            UE -> AS [label="Register Request"];
-                            AS -> HSS [label="Auth Request"];
-                            HSS -> AS [label="Auth Response"];
-                            AS -> UE [label="Register Response"];
-                        }
-                    `;
-                    break;
-
-                case "VoLTE to VoLTE call":
-                    mscScript = `
-                        msc {
-                            UE1, IMS, UE2;
-
-                            UE1 -> IMS [label="Invite"];
-                            IMS -> UE2 [label="Invite"];
-                            UE2 -> IMS [label="180 Ringing"];
-                            IMS -> UE1 [label="180 Ringing"];
-                            UE2 -> IMS [label="200 OK"];
-                            IMS -> UE1 [label="200 OK"];
-                            UE1 -> IMS [label="ACK"];
-                            IMS -> UE2 [label="ACK"];
-                        }
-                    `;
-                    break;
-
-                // Add more cases for other call types...
-
-                default:
-                    mscScript = `msc { a, b; a => b [label="No diagram available"]; }`;
-                    break;
+                        UE1->>CS: Initiate CS Call
+                        CS->>IMS: Route Call to IMS
+                        IMS->>UE2: Call Setup Request
+                        UE2->>IMS: Call Setup Response
+                        IMS->>UE1: VoLTE Call Setup Confirmation
+                        UE1->>UE2: VoLTE Call Media Exchange
+                        UE2->>UE1: VoLTE Call Media Exchange
+                `;
             }
 
-            return mscScript;
-        }
+            // Convert the MSC text to a URL-encoded format
+            const encodedMscText = encodeURIComponent(mscText.trim());
 
-        function renderMscDiagram(mscScript) {
-            // Render the MSC diagram
-            mscgenjs.render(
-                {
-                    elementId: "mscDiagram",
-                    script: mscScript,
-                    language: "mscgen",
-                },
-                function (pError) {
-                    if (pError) {
-                        console.error("Error rendering MSC diagram:", pError);
-                    }
-                }
-            );
+            // Display the MSC diagram using WebSequenceDiagrams API
+            const diagramUrl = `https://www.websequencediagrams.com/cgi-bin/cdraw?lz=${encodedMscText}`;
+
+            // Update the status message
+            document.getElementById('callStatus').textContent = `${selectedCallType} Call Flow Started`;
+
+            // Display the diagram inside the container
+            document.getElementById('callFlowDiagram').innerHTML = `
+                <img src="${diagramUrl}" alt="Generated Call Flow Diagram"/>
+            `;
         }
     </script>
+
 </body>
 </html>
