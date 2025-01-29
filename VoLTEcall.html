@@ -91,8 +91,47 @@
 
             <line x1="650" y1="170" x2="800" y2="170" class="msc-arrow" />
             <text x="200" y="105" class="msc-label">UAA</text>
+                    }
+        else if (selectedCallType === 'Third-party Registration') {
+                <div class="msc-container">
+        <svg width="400" height="200">
+            <!-- Define arrowhead marker -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+            </defs>
+
+            <!-- Vertical lines for entities -->
+            <line x1="50" y1="20" x2="50" y2="180" class="msc-line" />
+            <line x1="200" y1="20" x2="200" y2="180" class="msc-line" />
+            <line x1="350" y1="20" x2="350" y2="180" class="msc-line" />
+            <line x1="500" y1="20" x2="500" y2="180" class="msc-line" />
+            <line x1="650" y1="20" x2="650" y2="180" class="msc-line" />
+            
+            <!-- Entity labels -->
+            <text x="40" y="15" class="msc-label">UE</text>
+            <text x="190" y="15" class="msc-label">PCSCF</text>
+            <text x="340" y="15" class="msc-label">ICSCF</text>
+            <text x="490" y="15" class="msc-label">SCSCF</text>
+            <text x="640" y="15" class="msc-label">HSS</text>
         
-            }
+            <!-- Messages between entities -->
+            <line x1="50" y1="50" x2="200" y2="50" class="msc-arrow" />
+            <text x="120" y="45" class="msc-label">Register</text>
+
+            <line x1="200" y1="80" x2="350" y2="80" class="msc-arrow" />
+            <text x="270" y="75" class="msc-label">Register</text>
+
+            <line x1="350" y1="110" x2="500" y2="110" class="msc-arrow" />
+            <text x="420" y="105" class="msc-label">UAR</text>
+
+            <line x1="500" y1="140" x2="650" y2="140" class="msc-arrow" />
+            <text x="570" y="140" class="msc-label">UAA</text>
+
+            <line x1="650" y1="170" x2="800" y2="170" class="msc-arrow" />
+            <text x="200" y="105" class="msc-label">UAA</text>
+                    }
         </svg>
     </div>
         </script>
