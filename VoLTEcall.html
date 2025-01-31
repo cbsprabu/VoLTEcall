@@ -41,6 +41,11 @@
                 <option value="CS to VoLTE call">CS to VoLTE call</option>
             </select>
         </form>
+        <h1>Upload and Display Image</h1>
+        <form>
+        <input type="file" id="imageUpload" accept="image/*">
+        <img id="previewImage" src="https://github.com/cbsprabu/VoLTEcall/blob/main/IMS%20Registration.png?raw=true" alt="Preview" style="display:none; max-width: 300px; margin-top: 20px;">
+        </form>
     </div>
 
     <!-- Call Status -->
@@ -54,101 +59,18 @@
 
     <script>
         function startCall() {
-            const selectedCallType = document.getElementById('network').value;
-            let mscContainer = document.getElementById('callFlowDiagram');
-            mscContainer.innerHTML = ''; // Clear previous diagram
-
-            // Create the SVG container for the diagram
-            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("width", "800");
-            svg.setAttribute("height", "200");
-
-            // Define arrowhead marker
-            let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-            let marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-            marker.setAttribute("id", "arrowhead");
-            marker.setAttribute("markerWidth", "10");
-            marker.setAttribute("markerHeight", "7");
-            marker.setAttribute("refX", "9");
-            marker.setAttribute("refY", "3.5");
-            marker.setAttribute("orient", "auto");
-            let polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-            polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
-            marker.appendChild(polygon);
-            defs.appendChild(marker);
-            svg.appendChild(defs);
-
-            // Function to add vertical lines for entities
-            function addLine(x, y1, y2) {
-                let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", x);
-                line.setAttribute("y1", y1);
-                line.setAttribute("x2", x);
-                line.setAttribute("y2", y2);
-                line.setAttribute("class", "msc-line");
-                svg.appendChild(line);
-            }
-
-            // Function to add text labels for entities
-            function addText(x, y, textContent) {
-                let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                text.setAttribute("x", x);
-                text.setAttribute("y", y);
-                text.setAttribute("class", "msc-label");
-                text.textContent = textContent;
-                svg.appendChild(text);
-            }
-
-            // Function to add messages (arrows between entities)
-            function addMessage(x1, y1, x2, y2, label) {
-                let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", x1);
-                line.setAttribute("y1", y1);
-                line.setAttribute("x2", x2);
-                line.setAttribute("y2", y2);
-                line.setAttribute("class", "msc-arrow");
-                svg.appendChild(line);
-
-                let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                text.setAttribute("x", (x1 + x2) / 2);
-                text.setAttribute("y", (y1 + y2) / 2 - 5);
-                text.setAttribute("class", "msc-label");
-                text.textContent = label;
-                svg.appendChild(text);
-            }
-
-            // Define entities and their labels
-            addLine(50, 20, 180);
-            addLine(200, 20, 180);
-            addLine(350, 20, 180);
-            addLine(500, 20, 180);
-            addLine(650, 20, 180);
-
-            addText(40, 15, 'UE');
-            addText(190, 15, 'PCSCF');
-            addText(340, 15, 'ICSCF');
-            addText(490, 15, 'SCSCF');
-            addText(640, 15, 'HSS');
-
-            // Add messages based on selected call type
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
             if (selectedCallType === 'Registration') {
-                addMessage(50, 50, 200, 50, 'Register');
-                addMessage(200, 80, 350, 80, 'Register');
-                addMessage(350, 110, 500, 110, 'UAR');
-                addMessage(500, 140, 650, 140, 'UAA');
-                addMessage(650, 170, 800, 170, 'UAA');
-            } else if (selectedCallType === 'Third-party Registration') {
-                addMessage(50, 50, 200, 50, 'Register');
-                addMessage(200, 80, 350, 80, 'Register');
-                addMessage(350, 110, 500, 110, 'UAR');
-                addMessage(500, 140, 650, 140, 'UAA');
-                addMessage(650, 170, 800, 170, 'UAA');
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById('previewImage');
+                    imgElement.src = https://github.com/cbsprabu/VoLTEcall/blob/main/IMS%20Registration.png?raw=true;
+                    imgElement.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
-
-            // Append the diagram to the container
-            mscContainer.appendChild(svg);
-            document.getElementById('callStatus').textContent = `${selectedCallType} Call Flow Started`;
-        }
+        });
     </script>
 
 </body>
